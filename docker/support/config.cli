@@ -1,0 +1,6 @@
+embed-server --std-out=echo
+/subsystem=logging/logger=org.jboss.security:add(level=WARN)
+/subsystem=logging/logger=org.wildfly.security:add(level=WARN)
+
+
+stop-embedded-server
