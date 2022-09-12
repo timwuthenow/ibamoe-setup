@@ -2,7 +2,7 @@
 FROM registry.access.redhat.com/ubi8/openjdk-11:latest
 
 # Maintainer details
-AUTHOR IBM Worldwide Tech Sales
+#AUTHOR IBM Worldwide Tech Sales
 
 #Arguments
 ARG VERSION
