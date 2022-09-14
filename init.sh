@@ -1,6 +1,6 @@
 #!/bin/sh
 DEMO="Install Demo"
-AUTHORS="IBM World Wide Tech Slaes"
+AUTHORS="IBM World Wide Tech Sales"
 PROJECT="git@github.ibm.com:ibamoe-examples/ibamoe8-install-demo.git"
 PRODUCT="IBM Business Automation Manager Open Edition"
 JBOSS_HOME=./target/jboss-eap-7.4
