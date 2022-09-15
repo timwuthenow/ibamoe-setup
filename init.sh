@@ -160,31 +160,36 @@ echo "  - enabling demo accounts role setup..."
 echo
 echo "  - adding user 'bamAdmin' with password 'ibmpam1!'..."
 echo
-$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u bamAdmin -p ibmpam1! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all --silent
+$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u bamAdmin -p ibmpam1! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all
 
 echo "  - adding user 'adminUser' with password 'test1234!'..."
 echo
-$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u adminUser -p test1234! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all --silent
+$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u adminUser -p test1234! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all
 
 echo "  - adding user 'kieserver' with password 'kieserver1!'..."
 echo
-$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u kieserver -p kieserver1! -ro kie-server,rest-all --silent
+$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u kieserver -p kieserver1! -ro kie-server,rest-all
+
+echo "  - adding user 'controllerUser' with password 'controllerUser1234;'..."
+echo
+$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u kieserver -p kieserver1! -ro kie-server,rest-all
 
 echo "  - adding user 'caseUser' with password 'ibmpam1!'..."
 echo
-$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u caseUser -p ibmpam1! -ro user --silent
+$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u caseUser -p ibmpam1! -ro user
 
 echo "  - adding user 'caseManager' with password 'ibmpam1!'..."
 echo
-$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u caseManager -p ibmpam1! -ro user,manager --silent
+$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u caseManager -p ibmpam1! -ro user,manager
 
 echo "  - adding user 'caseSupplier' with password 'ibmpam1!'..."
 echo
-$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u caseSupplier -p ibmpam1! -ro user,supplier --silent
+$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u caseSupplier -p ibmpam1! -ro user,supplier
 
 echo "  - setting up standalone.xml configuration adjustments..."
 echo
 cp $SUPPORT_DIR/standalone-full.xml $SERVER_CONF/standalone.xml
+cp $SUPPORT_DIR/standalone-full.xml $SERVER_CONF/standalone-full.xml
 
 echo "  - setup email task notification users..."
 echo

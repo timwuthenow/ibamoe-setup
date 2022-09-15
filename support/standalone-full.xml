@@ -43,21 +43,20 @@
       <property name="org.jbpm.designer.perspective" value="full"/>
       <property name="designerdataobjects" value="false"/>
       <property name="org.kie.workbench.profile" value="FORCE_FULL"/>
-<!--Please uncomment the following properties to make KIE Server to be managed by Business Central-->
+      <property name="org.uberfire.nio.git.dir" value="${jboss.home.dir}/bin"/>
+      <property name="org.kie.server.repo" value="${jboss.server.data.dir}"/>
+      <property name="org.uberfire.metadata.index.dir" value="${jboss.home.dir}/bin"/>
+      <property name="org.guvnor.m2repo.dir" value="${jboss.home.dir}/bin"/>
+      <!--Please uncomment the following properties to make KIE Server to be managed by Business Central
+    Please also uncomment the default user and password which defined in standalone/configuration/application-roles.properties
+    and application-users.properties-->
       <property name="org.kie.server.location" value="http://localhost:8080/kie-server/services/rest/server"/>
       <property name="org.kie.server.controller" value="http://localhost:8080/business-central/rest/controller"/>
-      <property name="org.kie.server.controller.user" value="controllerUser"/>
-      <property name="org.kie.server.controller.pwd" value="controllerUser1234;"/>
-      <property name="org.kie.server.user" value="controllerUser"/>
-      <property name="org.kie.server.pwd" value="controllerUser1234;"/>
+      <property name="org.kie.server.controller.user" value="kieserver"/>
+      <property name="org.kie.server.controller.pwd" value="kieserver1!"/>
+      <property name="org.kie.server.user" value="kieserver"/>
+      <property name="org.kie.server.pwd" value="kieserver1!"/>
       <property name="org.kie.server.id" value="default-kieserver"/>
-      <!-- Custom props -->
-      <property name="org.jbpm.casemgmt.showcase.url" value="/rhpam-case-mgmt-showcase"/>
-      <property name="org.kie.server.xstream.enabled.packages" value="org.drools.persistence.jpa.marshaller.*,com.example.*"/>
-      <property name="org.kie.server.persistence.ds" value="java:jboss/datasources/ExampleDS"/>
-      <property name="org.kie.mail.session" value="java:jboss/mail/jbpmMailSession"/>
-      <property name="kie.maven.settings.custom" value="/opt/m2/settings.xml"/>
-      <property name="org.guvnor.m2repo.dir" value="/opt/m2/repository"/>
    </system-properties>
    <management>
       <security-realms>
@@ -76,6 +75,13 @@
                   <keystore path="application.keystore" relative-to="jboss.server.config.dir" keystore-password="password" alias="server" key-password="password" generate-self-signed-certificate-host="localhost"/>
                </ssl>
             </server-identities>
+                        <authentication>
+               <local default-user="$local" allowed-users="*" skip-group-loading="true"/>
+               <properties path="application-users.properties" relative-to="jboss.server.config.dir"/>
+            </authentication>
+            <authorization>
+               <properties path="application-roles.properties" relative-to="jboss.server.config.dir"/>
+            </authorization>
          </security-realm>
       </security-realms>
       <audit-log>
@@ -242,6 +248,7 @@
          </timer-service>
          <remote cluster="ejb" connectors="http-remoting-connector" thread-pool-name="default">
             <channel-creation-options>
+               <option name="READ_TIMEOUT" value="${prop.remoting-connector.read.timeout:20}" type="xnio"/>
                <option name="MAX_OUTBOUND_MESSAGES" value="1234" type="remoting"/>
             </channel-creation-options>
          </remote>
@@ -274,7 +281,7 @@
          </audit-logging>
          <security-domains>
             <security-domain name="ApplicationDomain" default-realm="ApplicationRealm" permission-mapper="default-permission-mapper">
-               <realm name="ApplicationRealm" role-decoder="from-roles-attribute"/>
+               <realm name="ApplicationRealm" role-decoder="groups-to-roles"/>
                <realm name="local"/>
             </security-domain>
             <security-domain name="ManagementDomain" default-realm="ManagementRealm" permission-mapper="default-permission-mapper">
@@ -284,11 +291,11 @@
          </security-domains>
          <security-realms>
             <identity-realm name="local" identity="$local"/>
-            <filesystem-realm name="ApplicationRealm">
-               <file path="kie-fs-realm-users" relative-to="jboss.server.config.dir"/>
-            </filesystem-realm>
-            <properties-realm name="ManagementRealm">
-               <users-properties path="mgmt-users.properties" relative-to="jboss.server.config.dir" digest-realm-name="ManagementRealm"/>
+            <properties-realm name="ApplicationRealm">
+               <users-properties path="application-users.properties" relative-to="jboss.server.config.dir" digest-realm-name="ApplicationRealm"/>
+               <groups-properties path="application-roles.properties" relative-to="jboss.server.config.dir"/>
+            </properties-realm>
+            <properties-realm name="ManagementRealm">               <users-properties path="mgmt-users.properties" relative-to="jboss.server.config.dir" digest-realm-name="ManagementRealm"/>
                <groups-properties path="mgmt-groups.properties" relative-to="jboss.server.config.dir"/>
             </properties-realm>
          </security-realms>
@@ -296,11 +303,15 @@
             <simple-permission-mapper name="default-permission-mapper" mapping-mode="first">
                <permission-mapping>
                   <principal name="anonymous"/>
-                  <permission-set name="default-permissions"/>
+                  <permission class-name="org.wildfly.extension.batch.jberet.deployment.BatchPermission" module="org.wildfly.extension.batch.jberet" target-name="*"/>
+                  <permission class-name="org.wildfly.transaction.client.RemoteTransactionPermission" module="org.wildfly.transaction.client"/>
+                  <permission class-name="org.jboss.ejb.client.RemoteEJBPermission" module="org.jboss.ejb-client"/>
                </permission-mapping>
                <permission-mapping match-all="true">
-                  <permission-set name="login-permission"/>
-                  <permission-set name="default-permissions"/>
+                  <permission class-name="org.wildfly.security.auth.permission.LoginPermission"/>
+                  <permission class-name="org.wildfly.extension.batch.jberet.deployment.BatchPermission" module="org.wildfly.extension.batch.jberet" target-name="*"/>
+                  <permission class-name="org.wildfly.transaction.client.RemoteTransactionPermission" module="org.wildfly.transaction.client"/>
+                  <permission class-name="org.jboss.ejb.client.RemoteEJBPermission" module="org.jboss.ejb-client"/>
                </permission-mapping>
             </simple-permission-mapper>
             <constant-realm-mapper name="local" realm-name="local"/>
@@ -320,18 +331,18 @@
                <permission class-name="org.jboss.ejb.client.RemoteEJBPermission" module="org.jboss.ejb-client"/>
             </permission-set>
          </permission-sets>
-         <http>
-            <http-authentication-factory name="management-http-authentication" security-domain="ManagementDomain" http-server-mechanism-factory="global">
+       <http>
+            <http-authentication-factory name="management-http-authentication" http-server-mechanism-factory="global" security-domain="ManagementDomain">
                <mechanism-configuration>
                   <mechanism mechanism-name="DIGEST">
                      <mechanism-realm realm-name="ManagementRealm"/>
                   </mechanism>
                </mechanism-configuration>
             </http-authentication-factory>
-            <http-authentication-factory name="application-http-authentication" security-domain="ApplicationDomain" http-server-mechanism-factory="global">
+            <http-authentication-factory name="application-http-authentication" http-server-mechanism-factory="global" security-domain="ApplicationDomain">
                <mechanism-configuration>
                   <mechanism mechanism-name="BASIC">
-                     <mechanism-realm realm-name="ApplicationRealm"/>
+                     <mechanism-realm realm-name="Application Realm"/>
                   </mechanism>
                   <mechanism mechanism-name="FORM"/>
                </mechanism-configuration>
@@ -339,19 +350,19 @@
             <provider-http-server-mechanism-factory name="global"/>
          </http>
          <sasl>
-            <sasl-authentication-factory name="application-sasl-authentication" sasl-server-factory="configured" security-domain="ApplicationDomain">
-               <mechanism-configuration>
-                  <mechanism mechanism-name="JBOSS-LOCAL-USER" realm-mapper="local"/>
-                  <mechanism mechanism-name="DIGEST-MD5">
-                     <mechanism-realm realm-name="ApplicationRealm"/>
-                  </mechanism>
-               </mechanism-configuration>
-            </sasl-authentication-factory>
             <sasl-authentication-factory name="management-sasl-authentication" sasl-server-factory="configured" security-domain="ManagementDomain">
                <mechanism-configuration>
                   <mechanism mechanism-name="JBOSS-LOCAL-USER" realm-mapper="local"/>
                   <mechanism mechanism-name="DIGEST-MD5">
                      <mechanism-realm realm-name="ManagementRealm"/>
+                  </mechanism>
+               </mechanism-configuration>
+            </sasl-authentication-factory>
+            <sasl-authentication-factory name="application-sasl-authentication" sasl-server-factory="configured" security-domain="ApplicationDomain">
+               <mechanism-configuration>
+                  <mechanism mechanism-name="JBOSS-LOCAL-USER" realm-mapper="local"/>
+                  <mechanism mechanism-name="DIGEST-MD5">
+                     <mechanism-realm realm-name="ApplicationRealm"/>
                   </mechanism>
                </mechanism-configuration>
             </sasl-authentication-factory>
@@ -511,9 +522,16 @@
                   <login-module code="RealmDirect" flag="required">
                      <module-option name="password-stacking" value="useFirstPass"/>
                   </login-module>
+                  <login-module xmlns="" code="org.kie.security.jaas.KieLoginModule" flag="optional" module="deployment.business-central.war"/>
+
                </authentication>
             </security-domain>
             <security-domain name="jboss-web-policy" cache-type="default">
+               <authorization>
+                  <policy-module code="Delegating" flag="required"/>
+               </authorization>
+                           </security-domain>
+            <security-domain name="jboss-ejb-policy" cache-type="default">
                <authorization>
                   <policy-module code="Delegating" flag="required"/>
                </authorization>
@@ -525,11 +543,6 @@
                   </login-module-stack>
                   <auth-module code="Dummy"/>
                </authentication-jaspi>
-            </security-domain>
-            <security-domain name="jboss-ejb-policy" cache-type="default">
-               <authorization>
-                  <policy-module code="Delegating" flag="required"/>
-               </authorization>
             </security-domain>
          </security-domains>
       </subsystem>
@@ -558,6 +571,8 @@
             <host name="default-host" alias="localhost">
                <location name="/" handler="welcome-content"/>
                <http-invoker security-realm="ApplicationRealm"/>
+               <filter-ref name="server-header"/>
+               <filter-ref name="x-powered-by-header"/>
             </host>
          </server>
          <servlet-container name="default">
@@ -598,7 +613,7 @@
     <any-address/>
   </interface>
    </interfaces>
-   <socket-binding-group name="standard-sockets" default-interface="any" port-offset="${jboss.socket.binding.port-offset:0}">
+   <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
       <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
       <socket-binding name="http" port="${jboss.http.port:8080}"/>
       <socket-binding name="https" port="${jboss.https.port:8443}"/>
