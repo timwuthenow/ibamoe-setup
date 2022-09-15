@@ -42,23 +42,16 @@
       <property name="org.kie.example" value="true"/>
       <property name="org.jbpm.designer.perspective" value="full"/>
       <property name="designerdataobjects" value="false"/>
-      <!-- Store data in JBoss EAP directories. -->
-      <property name="org.uberfire.nio.git.dir" value="${jboss.home.dir}/bin"/>
-      <property name="org.kie.server.repo" value="${jboss.server.data.dir}"/>
-      <property name="org.uberfire.metadata.index.dir" value="${jboss.home.dir}/bin"/>
-      <property name="org.guvnor.m2repo.dir" value="${jboss.home.dir}/bin"/>
-<!--Please uncomment the following properties to make KIE Server to be managed by Business Central
-    Please also uncomment the default user and password which defined in standalone/configuration/application-roles.properties
-    and application-users.properties-->
+      <property name="org.kie.workbench.profile" value="FORCE_FULL"/>
+<!--Please uncomment the following properties to make KIE Server to be managed by Business Central-->
       <property name="org.kie.server.location" value="http://localhost:8080/kie-server/services/rest/server"/>
       <property name="org.kie.server.controller" value="http://localhost:8080/business-central/rest/controller"/>
-      <property name="org.kie.server.controller.user" value="kieserver"/>
-      <property name="org.kie.server.controller.pwd" value="kieserver1!"/>
-      <property name="org.kie.server.user" value="kieserver"/>
-      <property name="org.kie.server.pwd" value="kieserver1!"/>
+      <property name="org.kie.server.controller.user" value="controllerUser"/>
+      <property name="org.kie.server.controller.pwd" value="controllerUser1234;"/>
+      <property name="org.kie.server.user" value="controllerUser"/>
+      <property name="org.kie.server.pwd" value="controllerUser1234;"/>
       <property name="org.kie.server.id" value="default-kieserver"/>
-            <property name="org.kie.workbench.profile" value="FORCE_FULL"/>
-            <!-- Custom props -->
+      <!-- Custom props -->
       <property name="org.jbpm.casemgmt.showcase.url" value="/rhpam-case-mgmt-showcase"/>
       <property name="org.kie.server.xstream.enabled.packages" value="org.drools.persistence.jpa.marshaller.*,com.example.*"/>
       <property name="org.kie.server.persistence.ds" value="java:jboss/datasources/ExampleDS"/>
@@ -83,13 +76,6 @@
                   <keystore path="application.keystore" relative-to="jboss.server.config.dir" keystore-password="password" alias="server" key-password="password" generate-self-signed-certificate-host="localhost"/>
                </ssl>
             </server-identities>
-            <authentication>
-               <local default-user="$local" allowed-users="*" skip-group-loading="true"/>
-               <properties path="application-users.properties" relative-to="jboss.server.config.dir"/>
-            </authentication>
-            <authorization>
-               <properties path="application-roles.properties" relative-to="jboss.server.config.dir"/>
-            </authorization>
          </security-realm>
       </security-realms>
       <audit-log>
@@ -140,7 +126,7 @@
          <logger category="com.arjuna">
             <level name="WARN"/>
          </logger>
-          <logger category="io.jaegertracing.Configuration">
+         <logger category="io.jaegertracing.Configuration">
             <level name="WARN"/>
          </logger>
          <logger category="org.jboss.as.config">
@@ -217,7 +203,7 @@
                <managed-executor-service name="default" jndi-name="java:jboss/ee/concurrency/executor/default" context-service="default" hung-task-termination-period="0" hung-task-threshold="60000" keepalive-time="5000"/>
             </managed-executor-services>
             <managed-scheduled-executor-services>
-             <managed-scheduled-executor-service name="default" jndi-name="java:jboss/ee/concurrency/scheduler/default" context-service="default" hung-task-termination-period="0" hung-task-threshold="60000" keepalive-time="3000"/>  
+               <managed-scheduled-executor-service name="default" jndi-name="java:jboss/ee/concurrency/scheduler/default" context-service="default" hung-task-termination-period="0" hung-task-threshold="60000" keepalive-time="3000"/>
             </managed-scheduled-executor-services>
          </concurrent>
          <default-bindings context-service="java:jboss/ee/concurrency/context/default" datasource="java:jboss/datasources/ExampleDS" jms-connection-factory="java:jboss/DefaultJMSConnectionFactory" managed-executor-service="java:jboss/ee/concurrency/executor/default" managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" managed-thread-factory="java:jboss/ee/concurrency/factory/default"/>
@@ -239,7 +225,6 @@
             <bean-instance-pools>
                <strict-max-pool name="mdb-strict-max-pool" derive-size="from-cpu-count" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
                <strict-max-pool name="slsb-strict-max-pool" derive-size="from-worker-pools" instance-acquisition-timeout="5" instance-acquisition-timeout-unit="MINUTES"/>
-
             </bean-instance-pools>
          </pools>
          <caches>
