@@ -196,13 +196,6 @@ echo
 cp $SUPPORT_DIR/userinfo.properties $SERVER_DIR/business-central.war/WEB-INF/classes/
 
 
-echo "  - setup system property for jpa marshaller"
-echo
-$JBOSS_HOME/bin/jboss-cli.sh <<EOT
-embed-server
-/system-property=org.kie.server.xstream.enabled.packages:add(value="org.drools.persistence.jpa.marshaller.*")
-EOT
-
 
 
 # Add execute permissions to the standalone.sh script.
