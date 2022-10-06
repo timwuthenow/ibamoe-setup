@@ -1,8 +1,6 @@
 # Use Universal Base Image with OpenJDK 11 as the base
 FROM registry.access.redhat.com/ubi8/openjdk-11:latest
 
-# Maintainer details
-#AUTHOR IBM Worldwide Tech Sales
 
 #Arguments
 ARG VERSION
@@ -50,11 +48,11 @@ RUN rm -rf /opt/jboss/jboss-eap-7.4/standalone/configuration/standalone_xml_hist
 
 ##This was validating permissions - the image right now is using root a lot of places due to challenges in the image
 RUN cat /opt/jboss/jboss-eap-7.4/bin/add-user.sh
-RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u bamAdmin -p ibmpam1! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all,Administrators   
-RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u adminUser -p test1234! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all,Administrators  
+RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u bamAdmin -p ibmpam1! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all,Administrators 
+RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u adminUser -p test1234! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all,Administrators 
 RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u kieserver -p kieserver1! -ro kie-server,rest-all
-RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseUser -p ibmpam1! -ro user  
-RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseManager -p ibmpam1! -ro user,manager  
+RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseUser -p ibmpam1! -ro user
+RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseManager -p ibmpam1! -ro user,manager 
 RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseSupplier -p ibmpam1! -ro user,supplier 
 COPY --chown=jboss:jboss support/config.cli /opt/jboss
 
@@ -65,21 +63,21 @@ COPY --chown=jboss:jboss support/standalone-full.xml /opt/jboss/jboss-eap-7.4/st
 COPY --chown=jboss:jboss support/userinfo.properties /opt/jboss/jboss-eap-7.4/standalone/deployments/business-central.war/WEB-INF/classes/
 # USER 185
 # # Add support files
-# RUN /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u bamAdmin -p ibmpam1! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all,Administrators   
-# RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u adminUser -p test1234! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all,Administrators  
-# RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u kieserver -p kieserver1! -ro kie-server  
-# RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseUser -p ibmpam1! -ro user  
-# RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseManager -p ibmpam1! -ro user,manager  
-# RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseSupplier -p ibmpam1! -ro user,supplier 
-COPY support/standalone-full.xml /opt/jboss/jboss-eap-7.4/standalone/configuration/
-COPY support/userinfo.properties /opt/jboss/jboss-eap-7.4/standalone/deployments/business-central.war/WEB-INF/classes/
+# RUN /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u bamAdmin -p ibmpam1! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all,Administrators --silent  
+# RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u adminUser -p test1234! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all,Administrators --silent 
+# RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u kieserver -p kieserver1! -ro kie-server --silent 
+# RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseUser -p ibmpam1! -ro user --silent 
+# RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseManager -p ibmpam1! -ro user,manager --silent 
+# RUN  /opt/jboss/jboss-eap-7.4/bin/add-user.sh -a -r ApplicationRealm -u caseSupplier -p ibmpam1! -ro user,supplier --silent
+# COPY support/standalone-full.xml /opt/jboss/jboss-eap-7.4/standalone/configuration/
+# COPY support/userinfo.properties /opt/jboss/jboss-eap-7.4/standalone/deployments/business-central.war/WEB-INF/classes/
 
 # Swtich back to root user to perform cleanup
 # USER root
 
 # Fix permissions on support files
-# RUN chown jboss:jboss /opt/jboss/jboss-eap-7.4/standalone/configuration/standalone-full.xml /opt/jboss/jboss-eap-7.4/standalone/deployments/business-central.war/WEB-INF/classes/userinfo.properties
-# RUN chown jboss:jboss /opt/jboss
+RUN chown jboss:jboss /opt/jboss/jboss-eap-7.4/standalone/configuration/standalone-full.xml /opt/jboss/jboss-eap-7.4/standalone/deployments/business-central.war/WEB-INF/classes/userinfo.properties
+RUN chown jboss:jboss /opt/jboss
 # Run as JBoss
 RUN ls -al /opt/jboss/jboss-eap-7.4
 RUN ls -al /opt/jboss/jboss-eap-7.4/standalone
