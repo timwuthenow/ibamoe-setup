@@ -1,5 +1,6 @@
-# ibamoe-docker
-A way to deploy IBAMOE into various environments including as a single Docker container with both KIE Server and Business Central. This is for demo purposes only and should not be used as a production deployment basis. This environment has been tested with OpenJDK 11 in Windows, Mac and Fedora. For Docker this was built on the Universal Basic Image with OpenJDK 11.
+# IBM Business Automation Open Edition Installer in either local environments or as a Docker container
+
+This repo is a sample way to deploy IBAMOE into various environments including as a single Docker container with both KIE Server and Business Central. This is for demo purposes only and should not be used as a production deployment basis. This environment has been tested with OpenJDK 11 in Windows, Mac and Fedora. For Docker this was built on the Universal Basic Image with OpenJDK 11.
 
 *Please open any issues you have with this, fork/pull request, however you can contribute to the Open Source Community!*
 
