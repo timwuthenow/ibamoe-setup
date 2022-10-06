@@ -57,6 +57,11 @@
       <property name="org.kie.server.user" value="kieserver"/>
       <property name="org.kie.server.pwd" value="kieserver1!"/>
       <property name="org.kie.server.id" value="default-kieserver"/>
+      <property name="org.jbpm.casemgmt.showcase.url" value="/rhpam-case-mgmt-showcase"/>
+      <property name="org.kie.server.xstream.enabled.packages" value="org.drools.persistence.jpa.marshaller.*,com.example.*"/>
+      <property name="org.kie.server.persistence.ds" value="java:jboss/datasources/ExampleDS"/>
+      <property name="org.kie.mail.session" value="java:jboss/mail/jbpmMailSession"/>
+
    </system-properties>
    <management>
       <security-realms>
