@@ -16,8 +16,8 @@ set PRJ_DIR=%PROJECT_HOME%\projects
 set VERSION_EAP=7.4.0
 set VERSION=8.0.1
 set EAP=jboss-eap-%VERSION_EAP%.zip
-set IBAMOE=ibamoe-%VERSION%-business-central-eap7-deployable.zip
-set IBAMOE_KIE_SERVER=ibamoe-%VERSION%-kie-server-ee8.zip
+set IBAMOE=bamoe-%VERSION%-business-central-eap7-deployable.zip
+set IBAMOE_KIE_SERVER=bamoe-%VERSION%-kie-server-ee8.zip
 @REM set IBAMOE_ADDONS=rhpam-%VERSION%-add-ons.zip
 @REM set IBAMOE_CASE=rhpam-%VERSION%-case-mgmt-showcase-eap7-deployable.zip
 
