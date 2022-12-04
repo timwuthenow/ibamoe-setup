@@ -85,7 +85,7 @@ cp support/docker/.dockerignore .
 echo Starting Docker build.
 echo
 
-docker build --no-cache -t $DOCKERNAME --build-arg VERSION=$VERSION --build-arg $IBAMOE=bamoe-8.0.1-business-central-eap7-deployable.zip --build-arg $IBAMOE_KIE_SERVER=$IBAMOE_KIE_SERVER --build-arg EAP=$EAP --build-arg JBOSS_EAP=$JBOSS_EAP .
+docker build --no-cache -t $DOCKERNAME --build-arg VERSION=$VERSION --build-arg IBAMOE=bamoe-8.0.1-business-central-eap7-deployable.zip --build-arg IBAMOE_KIE_SERVER=$IBAMOE_KIE_SERVER --build-arg EAP=$EAP --build-arg JBOSS_EAP=$JBOSS_EAP .
 
 if [ $? -ne 0 ]; then
         echo
