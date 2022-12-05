@@ -145,7 +145,8 @@ mkdir %PROJECT_HOME%\target
 REM Installation.
 echo JBoss EAP installation running now...
 echo.
-cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%EAP% %PROJECT_HOME%\target
+unzip -o %SRC_DIR%\%EAP% %PROJECT_HOME%\target
+@REM cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%EAP% %PROJECT_HOME%\target
 echo Completed the unzips
 
 if not "%ERRORLEVEL%" == "0" (
@@ -157,9 +158,12 @@ if not "%ERRORLEVEL%" == "0" (
 
 call set NOPAUSE=true
 
-echo Red Hat Process Automation Manager installation running now...
+echo IBM Process Automation Manager Open Edition installation running now...
 echo.
-cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%IBAMOE% %PROJECT_HOME%\target
+
+unzip -o %SUPPORT_DIR%\%IBAMOE% %PROJECT_HOME%\target
+echo Unzip complete of %IBAMOE%
+@REM cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%IBAMOE% %PROJECT_HOME%\target
 
 if not "%ERRORLEVEL%" == "0" (
   echo.
@@ -168,9 +172,10 @@ if not "%ERRORLEVEL%" == "0" (
 	GOTO :EOF
 )
 
-echo Red Hat Process Automation Manager Kie Server installation running now...
+echo IBM Process Automation Manager Open Edition Kie Server installation running now...
 echo.
-cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%IBAMOE_KIE_SERVER% %JBOSS_HOME%\standalone\deployments
+unzip -o %SRC_DIR%\%IBAMOE_KIE_SERVER% %JBOSS_HOME%\standalone\deployments
+@REM cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%IBAMOE_KIE_SERVER% %JBOSS_HOME%\standalone\deployments
 
 if not "%ERRORLEVEL%" == "0" (
   echo.
