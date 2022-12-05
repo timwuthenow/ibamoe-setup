@@ -18,7 +18,7 @@ Installing on local machine deployed on A JBoss EAP environment
 ---------------------------
 1. [Clone this repo](https://github.com/timwuthenow/ibamoe-docker.git).
    
-2. Add products to installs directory, see [installs/README](installs/README) for details and links. These will be downloaded from Passport Advantage.
+2. Add products to installs directory, see [installs/README](installs/README.md) for details and links. These will be downloaded from Passport Advantage.
 
 3. Run 'init.sh' or 'init.bat' file. 'init.bat' must be run with Administrative privileges.
 
