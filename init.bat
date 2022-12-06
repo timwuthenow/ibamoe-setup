@@ -145,7 +145,7 @@ mkdir %PROJECT_HOME%\target
 REM Installation.
 echo JBoss EAP installation running now...
 echo.
-tar -oxvf %SRC_DIR%\%EAP% %PROJECT_HOME%\target
+powershell -command "Expand-Archive -Path %SRC_DIR%\%EAP% %PROJECT_HOME%\target
 @REM cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%EAP% %PROJECT_HOME%\target
 echo Completed the unzips
 
@@ -161,7 +161,8 @@ call set NOPAUSE=true
 echo IBM Process Automation Manager Open Edition installation running now...
 echo.
 
-tar -oxvf %SUPPORT_DIR%\%IBAMOE% %PROJECT_HOME%\target
+powershell -command "Expand-Archive -Force -Path %SRC_DIR%\%IBAMOE% %PROJECT_HOME%\target
+@REM tar -oxvf %SUPPORT_DIR%\%IBAMOE% %PROJECT_HOME%\target
 echo Unzip complete of %IBAMOE%
 @REM cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%IBAMOE% %PROJECT_HOME%\target
 
@@ -174,7 +175,8 @@ if not "%ERRORLEVEL%" == "0" (
 
 echo IBM Process Automation Manager Open Edition Kie Server installation running now...
 echo.
-tar -oxvf %SRC_DIR%\%IBAMOE_KIE_SERVER% %JBOSS_HOME%\standalone\deployments
+powershell -command "Expand-Archive -Path %SRC_DIR%\%IBAMOE_KIE_SERVER% %JBOSS_HOME%\standalone\deployments
+@REM tar -oxvf %SRC_DIR%\%IBAMOE_KIE_SERVER% %JBOSS_HOME%\standalone\deployments
 @REM cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%IBAMOE_KIE_SERVER% %JBOSS_HOME%\standalone\deployments
 
 if not "%ERRORLEVEL%" == "0" (
