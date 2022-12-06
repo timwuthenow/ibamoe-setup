@@ -63,7 +63,7 @@
       <property name="org.kie.server.xstream.enabled.packages" value="org.drools.persistence.jpa.marshaller.*,com.example.*"/>
       <property name="org.kie.server.persistence.ds" value="java:jboss/datasources/ExampleDS"/>
       <property name="org.kie.mail.session" value="java:jboss/mail/jbpmMailSession"/>
-
+      <property name="org.kie.kafka.server.ext.disabled" value="false" />
    </system-properties>
    <management>
       <security-realms>
