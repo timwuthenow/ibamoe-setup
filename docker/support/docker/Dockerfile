@@ -4,8 +4,8 @@ FROM registry.access.redhat.com/ubi8/openjdk-11:latest
 
 #Arguments
 ARG VERSION
-ARG RHPAM
-ARG RHPAM_KIE_SERVER
+ARG IBAMOE
+ARG IBAMOE_KIE_SERVER
 ARG EAP
 ARG PROJECT_GIT_REPO
 ARG JBOSS_EAP
@@ -16,7 +16,8 @@ ENV HOME /opt/jboss
 #ENV JBOSS_HOME $HOME/$JBOSS_EAP
 
 # ADD Installation Files
-COPY --chown=jboss:jboss installs/$RHPAM installs/$RHPAM_KIE_SERVER installs/$RHPAM_ADDONS installs/$EAP /opt/jboss/
+COPY --chown=jboss:jboss installs/$IBAMOE installs/$IBAMOE_KIE_SERVER installs/$IBAMOE_ADDONS installs/$EAP /opt/jboss/
+RUN ls -al /opt/jboss
 RUN whoami
 # Update Permissions on Installers
 USER root
@@ -31,18 +32,21 @@ USER root
         # Custom scripts from 'jboss.container.user' module
         USER jboss
 
-#RUN chown 185:185 /opt/jboss /opt/jboss/$EAP /opt/jboss/$RHPAM /opt/jboss/IBAMOE-8.0-KS8.zip /opt/jboss/$RHPAM_ADDONS
+#RUN chown 185:185 /opt/jboss /opt/jboss/$EAP /opt/jboss/$IBAMOE /opt/jboss/IBAMOE-8.0-KS8.zip /opt/jboss/$IBAMOE_ADDONS
 
 
 # Prepare and run installer and cleanup installation components
 
 RUN unzip -qo /opt/jboss/$EAP -d $HOME 
 RUN rm -rf /opt/jboss/$EAP
-RUN unzip -qo /opt/jboss/$RHPAM -d $HOME  
-RUN rm -rf /opt/jboss/$RHPAM
+RUN echo /opt/jboss/$IBAMOE
+RUN unzip -qo /opt/jboss/$IBAMOE -d $HOME  
+RUN rm -rf /opt/jboss/$IBAMOE
 
-RUN unzip -qo /opt/jboss/$RHPAM_KIE_SERVER -d /opt/jboss/jboss-eap-7.4/standalone/deployments 
-RUN rm -rf /opt/jboss/$RHPAM_KIE_SERVER
+RUN dir -s /opt/jboss
+
+RUN unzip -qo /opt/jboss/$IBAMOE_KIE_SERVER -d /opt/jboss/jboss-eap-7.4/standalone/deployments 
+RUN rm -rf /opt/jboss/$IBAMOE_KIE_SERVER
 RUN touch /opt/jboss/jboss-eap-7.4/standalone/deployments/kie-server.war.dodeploy
 RUN rm -rf /opt/jboss/jboss-eap-7.4/standalone/configuration/standalone_xml_history/
 

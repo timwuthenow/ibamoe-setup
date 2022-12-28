@@ -14,12 +14,12 @@ set SRC_DIR=%PROJECT_HOME%\installs
 set SUPPORT_DIR=%PROJECT_HOME%\support
 set PRJ_DIR=%PROJECT_HOME%\projects
 set VERSION_EAP=7.4.0
-set VERSION=8.0
+set VERSION=8.0.1
 set EAP=jboss-eap-%VERSION_EAP%.zip
-set RHPAM=IBAMOE-%VERSION%-BC7.zip
-set RHPAM_KIE_SERVER=IBAMOE-%VERSION%-KS8.zip
-@REM set RHPAM_ADDONS=rhpam-%VERSION%-add-ons.zip
-@REM set RHPAM_CASE=rhpam-%VERSION%-case-mgmt-showcase-eap7-deployable.zip
+set IBAMOE=bamoe-%VERSION%-business-central-eap7-deployable.zip
+set IBAMOE_KIE_SERVER=bamoe-%VERSION%-kie-server-ee8.zip
+@REM set IBAMOE_ADDONS=rhpam-%VERSION%-add-ons.zip
+@REM set IBAMOE_CASE=rhpam-%VERSION%-case-mgmt-showcase-eap7-deployable.zip
 
 REM wipe screen.
 cls
@@ -74,8 +74,8 @@ echo %PRJ_DIR%
 echo %VERSION_EAP%
 echo %VERSION%
 echo %EAP=jboss-eap-%
-echo %RHPAM%
-echo %RHPAM_KIE_SERVER%
+echo %IBAMOE%
+echo %IBAMOE_KIE_SERVER%
 
 REM make some checks first before proceeding.	
 if exist "%SUPPORT_DIR%" (
@@ -97,31 +97,31 @@ if exist "%SRC_DIR%\%EAP%" (
         GOTO :EOF
 )
 
-if exist "%SRC_DIR%\%RHPAM%" (
+if exist "%SRC_DIR%\%IBAMOE%" (
         echo Red Hat Process Automation Manager sources are present...
         echo.
 ) else (
-        echo Need to download %RHPAM% package from https://developers.redhat.com/products/rhpam/download
+        echo Need to download %IBAMOE% package from https://developers.redhat.com/products/rhpam/download
         echo and place it in the %SRC_DIR% directory to proceed...
         echo.
         GOTO :EOF
 )
 
-if exist "%SRC_DIR%\%RHPAM_KIE_SERVER%" (
+if exist "%SRC_DIR%\%IBAMOE_KIE_SERVER%" (
         echo Red Hat Process Automation Maanger Kie Server sources are present...
         echo.
 ) else (
-        echo Need to download %RHPAM_KIE_SERVER% package from https://developers.redhat.com/products/rhpam/download
+        echo Need to download %IBAMOE_KIE_SERVER% package from https://developers.redhat.com/products/rhpam/download
         echo and place it in the %SRC_DIR% directory to proceed...
         echo.
         GOTO :EOF
 )
 
-@REM if exist "%SRC_DIR%\%RHPAM_ADDONS%" (
+@REM if exist "%SRC_DIR%\%IBAMOE_ADDONS%" (
 @REM         echo Red Hat Process Automation Manager Case Management sources are present...
 @REM         echo.
 @REM ) else (
-@REM         echo Need to download %RHPAM_ADDONS% package from https://developers.redhat.com/products/rhpam/download
+@REM         echo Need to download %IBAMOE_ADDONS% package from https://developers.redhat.com/products/rhpam/download
 @REM         echo and place it in the %SRC_DIR% directory to proceed...
 @REM         echo.
 @REM         GOTO :EOF
@@ -159,7 +159,7 @@ call set NOPAUSE=true
 
 echo Red Hat Process Automation Manager installation running now...
 echo.
-cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%RHPAM% %PROJECT_HOME%\target
+cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%IBAMOE% %PROJECT_HOME%\target
 
 if not "%ERRORLEVEL%" == "0" (
   echo.
@@ -170,7 +170,7 @@ if not "%ERRORLEVEL%" == "0" (
 
 echo Red Hat Process Automation Manager Kie Server installation running now...
 echo.
-cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%RHPAM_KIE_SERVER% %JBOSS_HOME%\standalone\deployments
+cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%IBAMOE_KIE_SERVER% %JBOSS_HOME%\standalone\deployments
 
 if not "%ERRORLEVEL%" == "0" (
   echo.
@@ -184,7 +184,7 @@ echo. 2>%JBOSS_HOME%/standalone/deployments/kie-server.war.dodeploy
 
 @REM echo Red Hat Process Automation Manager Case Management installation running now...
 @REM echo.
-@REM cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%RHPAM_ADDONS% %SRC_DIR%
+@REM cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%IBAMOE_ADDONS% %SRC_DIR%
 
 @REM if not "%ERRORLEVEL%" == "0" (
 @REM   echo.
@@ -193,7 +193,7 @@ echo. 2>%JBOSS_HOME%/standalone/deployments/kie-server.war.dodeploy
 @REM 	GOTO :EOF
 @REM )
 
-@REM cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%RHPAM_CASE% %PROJECT_HOME%\target
+@REM cscript /nologo %SUPPORT_DIR%\unzip.vbs %SRC_DIR%\%IBAMOE_CASE% %PROJECT_HOME%\target
 
 @REM if not "%ERRORLEVEL%" == "0" (
 @REM   echo.

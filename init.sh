@@ -11,15 +11,15 @@ SRC_DIR=./installs
 SUPPORT_DIR=./support
 PRJ_DIR=./projects
 VERSION_EAP=7.4.0
-VERSION=8.0
+VERSION=8.0.1
 EAP=jboss-eap-$VERSION_EAP.zip
 #INSTALL - IBM or Red Hat
-INSTALL=IBAMOE
-RHPAM=$INSTALL-$VERSION-BC7.zip
-RHPAM_KIE_SERVER=$INSTALL-$VERSION-KS8.zip
-RHPAM_ADDONS=$INSTALL-$VERSION-AO.zip
-#RHPAM_CASE=rhpam-$VERSION-case-mgmt-showcase-eap7-deployable.zip
-RHPAM_UPDATE=rhpam-$VERSION-update
+INSTALL=bamoe
+IBAMOE=$INSTALL-$VERSION-business-central-eap7-deployable.zip
+IBAMOE_KIE_SERVER=$INSTALL-$VERSION-kie-server-ee8.zip
+IBAMOE_ADDONS=$INSTALL-$VERSION-add-ons.zip
+#IBAMOE_CASE=IBAMOE-$VERSION-case-mgmt-showcase-eap7-deployable.zip
+IBAMOE_UPDATE=ibamoe-$VERSION-update
 
 # wipe screen.
 clear
@@ -69,31 +69,31 @@ else
 	exit
 fi
 
-if [ -r $SRC_DIR/$RHPAM ] || [ -L $SRC_DIR/$RHPAM ]; then
+if [ -r $SRC_DIR/$IBAMOE ] || [ -L $SRC_DIR/$IBAMOE ]; then
 	echo "Product IBM Business Automation Manager Open Edition sources are present..."
 	echo
 else
-	echo "Need to download $RHPAM package from Passport Advantage or your typical IBM Software Downloads location and search for product M06VVML - Business Central"
+	echo "Need to download $IBAMOE package from Passport Advantage or your typical IBM Software Downloads location and search for product M06VVML - Business Central"
 	echo "and place it in the $SRC_DIR directory to proceed..."
 	echo
 	exit
 fi
 
-if [ -r $SRC_DIR/$RHPAM_KIE_SERVER ] || [ -L $SRC_DIR/$RHPAM_KIE_SERVER ]; then
+if [ -r $SRC_DIR/$IBAMOE_KIE_SERVER ] || [ -L $SRC_DIR/$IBAMOE_KIE_SERVER ]; then
 	echo "Product IBM Business Automation Manager Open Edition KIE Server sources are present..."
 	echo
 else
-	echo "Need to download $RHPAM_KIE_SERVER package from https://w3.ibm.com/w3publisher/software-downloads and search M06VYML - KIE Server"
+	echo "Need to download $IBAMOE_KIE_SERVER package from https://w3.ibm.com/w3publisher/software-downloads and search M06VYML - KIE Server"
 	echo "and place it in the $SRC_DIR directory to proceed..."
 	echo
 	exit
 fi
 
-# if [ -r $SRC_DIR/$RHPAM_ADDONS ] || [ -L $SRC_DIR/$RHPAM_ADDONS ]; then
+# if [ -r $SRC_DIR/$IBAMOE_ADDONS ] || [ -L $SRC_DIR/$IBAMOE_ADDONS ]; then
 # 	echo "Product IBM Business Automation Manager Open Edition Case Management sources are present..."
 # 	echo
 # else
-# 	echo "Need to download $RHPAM_ADDONS package from https://developers.redhat.com/products/rhpam/download"
+# 	echo "Need to download $IBAMOE_ADDONS package from https://developers.redhat.com/products/rhpam/download"
 # 	echo "and place it in the $SRC_DIR directory to proceed..."
 # 	echo
 # 	exit
@@ -120,7 +120,7 @@ fi
 
 echo "IBM Business Automation Open Edition installation running now..."
 echo
-unzip -qo $SRC_DIR/$RHPAM -d target
+unzip -qo $SRC_DIR/$IBAMOE -d target
 
 if [ $? -ne 0 ]; then
 	echo
@@ -130,7 +130,7 @@ fi
 
 echo "IBM Business Automation Manager Open Edition - Kie Server installation running now..."
 echo
-unzip -qo $SRC_DIR/$RHPAM_KIE_SERVER  -d $JBOSS_HOME/standalone/deployments
+unzip -qo $SRC_DIR/$IBAMOE_KIE_SERVER  -d $JBOSS_HOME/standalone/deployments
 
 if [ $? -ne 0 ]; then
 	echo
@@ -143,9 +143,9 @@ touch $JBOSS_HOME/standalone/deployments/kie-server.war.dodeploy
 
 # echo "IBM Business Automation Manager Open Edition Case Management installation running now..."
 # echo
-# unzip -qo $SRC_DIR/$RHPAM_ADDONS $RHPAM_CASE -d $SRC_DIR
-# unzip -qo $SRC_DIR/$RHPAM_CASE -d target
-# rm $SRC_DIR/$RHPAM_CASE
+# unzip -qo $SRC_DIR/$IBAMOE_ADDONS $IBAMOE_CASE -d $SRC_DIR
+# unzip -qo $SRC_DIR/$IBAMOE_CASE -d target
+# rm $SRC_DIR/$IBAMOE_CASE
 
 # if [ $? -ne 0 ]; then
 # 	echo
@@ -231,7 +231,7 @@ echo
 
 # echo "Red Hat Process Automation Manager update and patch process running now..."
 # echo
-# unzip -qo $SRC_DIR/$RHPAM_UPDATE.zip -d target
+# unzip -qo $SRC_DIR/$IBAMOE_UPDATE.zip -d target
 
 # if [ $? -ne 0 ]; then
 # 	echo
@@ -239,7 +239,7 @@ echo
 # 	exit
 # fi
 
-# cd ./target/$RHPAM_UPDATE
+# cd ./target/$IBAMOE_UPDATE
 
 # echo "  - patching Business Central..."
 # ./apply-updates.sh ../jboss-eap-7.4/standalone/deployments/business-central.war rhpam-business-central-eap7-deployable
@@ -248,4 +248,4 @@ echo
 # ./apply-updates.sh ../jboss-eap-7.4/standalone/deployments/kie-server.war rhpam-kie-server-ee8
 
 # cd ../../
-# rm -r target/$RHPAM_UPDATE
+# rm -r target/$IBAMOE_UPDATE

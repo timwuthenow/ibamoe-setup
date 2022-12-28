@@ -49,31 +49,31 @@ fi
 #	exit
 #fi
 
-if [ -r $SRC_DIR/$RHPAM ] || [ -L $SRC_DIR/$RHPAM ]; then
+if [ -r $SRC_DIR/$IBAMOE ] || [ -L $SRC_DIR/$IBAMOE ]; then
 		echo Product sources are present...
 		echo
 else
-		echo Need to download $RHPAM zip from http://developers.redhat.com
+		echo Need to download $IBAMOE zip from http://developers.redhat.com
 		echo and place it in the $SRC_DIR directory to proceed...
 		echo
 		exit
 fi
 
-if [ -r $SRC_DIR/$RHPAM_KIE_SERVER ] || [ -L $SRC_DIR/$RHPAM_KIE_SERVER ]; then
+if [ -r $SRC_DIR/$IBAMOE_KIE_SERVER ] || [ -L $SRC_DIR/$IBAMOE_KIE_SERVER ]; then
 		echo Product sources are present...
 		echo
 else
-		echo Need to download $RHPAM_KIE_SERVER zip from http://developers.redhat.com
+		echo Need to download $IBAMOE_KIE_SERVER zip from http://developers.redhat.com
 		echo and place it in the $SRC_DIR directory to proceed...
 		echo
 		exit
 fi
 
-# if [ -r $SRC_DIR/$RHPAM_ADDONS ] || [ -L $SRC_DIR/RHPAM_ADDONS ]; then
+# if [ -r $SRC_DIR/$IBAMOE_ADDONS ] || [ -L $SRC_DIR/$IBAMOE_ADDONS ]; then
 # 		echo Product sources are present...
 # 		echo
 # else
-# 		echo Need to download $RHPAM_ADDONS zip from http://developers.redhat.com
+# 		echo Need to download $IBAMOE_ADDONS zip from http://developers.redhat.com
 # 		echo and place it in the $SRC_DIR directory to proceed...
 # 		echo
 # 		exit
@@ -85,7 +85,7 @@ cp support/docker/.dockerignore .
 echo Starting Docker build.
 echo
 
-docker build --no-cache -t $DOCKERNAME --build-arg VERSION=$VERSION --build-arg RHPAM=$RHPAM --build-arg RHPAM_KIE_SERVER=$RHPAM_KIE_SERVER --build-arg EAP=$EAP --build-arg JBOSS_EAP=$JBOSS_EAP .
+docker build --no-cache -t $DOCKERNAME --build-arg VERSION=$VERSION --build-arg IBAMOE=bamoe-8.0.1-business-central-eap7-deployable.zip --build-arg IBAMOE_KIE_SERVER=$IBAMOE_KIE_SERVER --build-arg EAP=$EAP --build-arg JBOSS_EAP=$JBOSS_EAP .
 
 if [ $? -ne 0 ]; then
         echo
