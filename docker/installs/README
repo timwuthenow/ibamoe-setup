@@ -1,8 +1,21 @@
-Download the following from http://developers.redhat.com
+# Build your own version of the Environment
 
- * EAP zip (jboss-eap-7.2.0.zip)
- * Process Automation Manager: Business Central deployable (rhpam-7.7.0-business-central-eap7-deployable.zip)
- * Process Automation Manager: Process Server (KIE Server) deployable (rhpam-7.7.0-kie-server-ee8.zip)
- * Process Automation Manager: Case Management Application (rhpam-7.7.0-add-ons.zip)
+If you go the build your own container route, you will need to provide the JDBC jar for PostgreSQL that you can use and update the `Dockerfile` found in `docker/support/docker/Dockerfile` on *line 58*. This file, as well as the IBAMOE downloads will need to be added to the `docker/installs` path.
 
-and copy to this directory for the init.sh and init.ps1 scripts to work.
+To do the build your own verison:
+
+1. Download IBAMOE from the method provided to you - be it a shared link, Passport Advantage or Fix Central.
+1. Move the following files to the `docker/installs` path
+   - bamoe-8.0.1-add-ons.zip
+   - bamoe-8.0.1-business-central-eap7-deployable.zip
+   - bamoe-8.0.1-kie-server-ee8.zip
+   - jboss-eap-7.4.0.zip
+   - postgresql-42.5.1.jar
+   - settings.xml
+
+   1. Swap out the maven.settings file for one that works for your environment
+   2. If you want to use a different data source than PostgreSQL, you will need to change the JDBC jar as well as updating the files in `docker/init-properties.sh` *JDBC* and in the `docker/support/docker/Dockerfile` update the lines between this `####UPDATE THIS LINE FOR CHANGING THE DATA SOURCE JDBC PROVIDER TO APPROPRIATE JAR#####` with the appropriate source. Instructions to update `standalone-full.xml` to come later.
+1. After the updates have been completed to the files, run from the `docker` directory run `init-docker.sh` which will run through the process of building a customized `Dockerfile` and then build the associative container as ibamoe-8-bc-persistence. If you want to add tags and other pieces to it, you can do so using your preferred methods.
+1. Now that the container is built, you can go back to this parent folder and run `docker compose up` and the new environment will be built.
+
+After you put the downloaded files in docker/installs, you can build the Docker container for `ibamoe-8-bc-persistence` by navigating to `cd docker` and then running the script `./init-docker.sh`.
